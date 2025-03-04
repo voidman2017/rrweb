@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../packages/rrweb/dist/rrweb.umd.cjs"></script>
+    <script src="../packages/rrweb-player/dist/rrweb-player.umd.cjs"></script>
+    <link rel="stylesheet" href="../packages/rrweb-player/dist/style.css" />
+    <style>
+      #btns {
+        display: flex;
+        gap: 10px;
+        button {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="btns">
+      <button onclick="startRecording()">start recording</button>
+      <button onclick="stopRecording()">stop recording</button>
+      <button onclick="play()">play</button>
+    </div>
+
+    <!-- todolist -->
+    <div>
+      <input type="text" id="input" />
+      <button onclick="addTodo()">add</button>
+      <ul id="todos"></ul>
+    </div>
+
+    <!-- player -->
+    <div id="player"></div>
+
+    <script>
+      console.log('rrweb', rrweb, rrwebPlayer);
+      let stop;
+      let events = [];
+
+      function startRecording() {
+        stop = rrweb.record({
+          emit: (event) => {
+            console.log('event', event);
+            events.push(event);
+          },
+        });
+      }
+
+      function stopRecording() {
+        stop();
+      }
+
+      let todos = [];
+      function addTodo() {
+        const todo = document.getElementById('input').value;
+        todos.push(todo);
+        const li = document.createElement('li');
+        li.textContent = todo;
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'delete';
+        deleteButton.onclick = () => {
+          todos = todos.filter((t) => t !== todo);
+          li.remove();
+        };
+        li.appendChild(deleteButton);
+        document.getElementById('todos').appendChild(li);
+        document.getElementById('input').value = '';
+      }
+
+      function play() {
+        console.log('play', rrwebPlayer.Player);
+        const player = new rrwebPlayer.Player({
+          target: document.getElementById('player'),
+          props: {
+            events,
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

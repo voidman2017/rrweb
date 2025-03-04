@@ -14,7 +14,7 @@
     "pack:chrome": "cross-env TARGET_BROWSER=chrome ZIP=true vite build",
     "pack:firefox": "cross-env TARGET_BROWSER=firefox ZIP=true vite build",
     "check-types": "tsc -noEmit",
-    "build": "npm run pack:chrome && npm run pack:firefox",
+    "build": "echo \"Error: no test specified\"",
     "prepublish": "yarn build"
   },
   "devDependencies": {

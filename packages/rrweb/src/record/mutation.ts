@@ -257,6 +257,7 @@ export default class MutationBuffer {
   }
 
   public processMutations = (mutations: mutationRecord[]) => {
+    debugger
     mutations.forEach(this.processMutation); // adds mutations to the buffer
     this.emit(); // clears buffer if not locked/frozen
   };
